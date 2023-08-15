@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  pm1:
+    image: mariadb/columnstore
+    shm_size: "512mb"
+    hostname: mcs1
+    volumes:
+      - ./data1:/var/lib/columnstore/data1
+      - ./data2:/var/lib/columnstore/data2
+      - ./data3:/var/lib/columnstore/data3
+      - ./storagemanager:/var/lib/columnstore/storagemanager
+    env_file:
+      - .env
+    ports:
+      - 172.17.0.1:3307:3306
+
+  mx1:
+    image: mariadb/maxscale
+    hostname: mx1
+    volumes:
+      - ./maxscale1:/var/lib/maxscale
+      - ./etc/maxscale.cnf:/etc/maxscale.cnf
+    depends_on:
+      - "pm1"
+    env_file:
+      - .env
+    links:
+      - "pm1"
+    ports:
+      - 172.17.0.1:3310:3306
+      - 172.17.0.1:8989:8989
