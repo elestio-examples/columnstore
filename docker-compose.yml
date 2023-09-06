@@ -13,7 +13,7 @@ services:
       - ./data1:/var/lib/columnstore/data1
       - ./storagemanager:/var/lib/columnstore/storagemanager
       - ./mysql_data:/var/lib/mysql:rw
-      - ./scripts/columnstore-init:/usr/bin/columnstore-init:rw
+      # - ./scripts/columnstore-init:/usr/bin/columnstore-init:rw
 
   pma:
     image: phpmyadmin/phpmyadmin
