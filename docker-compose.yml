@@ -1,90 +1,29 @@
 version: "3"
-
 services:
   mcs1:
     image: ${MCS_IMAGE_NAME}
-    shm_size: "512mb"
-    hostname: ${PM1}
-    volumes:
-      - ./data1:/var/lib/columnstore/data1
-      - ./data2:/var/lib/columnstore/data2
-      - ./data3:/var/lib/columnstore/data3
-      - ./storagemanager:/var/lib/columnstore/storagemanager
+    restart: always
     env_file:
       - .env
-    depends_on:
-      - "mcs3"
-    links:
-      - "mcs2"
-      - "mcs3"
     ports:
       - 172.17.0.1:3307:3306
-
-  mcs2:
-    image: ${MCS_IMAGE_NAME}
-    shm_size: "512mb"
-    hostname: ${PM2}
     volumes:
-      - ./data1:/var/lib/columnstore/data1
-      - ./data2:/var/lib/columnstore/data2
-      - ./data3:/var/lib/columnstore/data3
-      - ./storagemanager:/var/lib/columnstore/storagemanager
-    env_file:
-      - .env
-    depends_on:
-      - "mcs3"
+      - ./data:/var/lib/columnstore
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    restart: always
     links:
-      - "mcs3"
+      - mariadb:mariadb
     ports:
-      - 172.17.0.1:3308:3306
-
-  mcs3:
-    image: ${MCS_IMAGE_NAME}
-    shm_size: "512mb"
-    hostname: ${PM3}
-    volumes:
-      - ./data1:/var/lib/columnstore/data1
-      - ./data2:/var/lib/columnstore/data2
-      - ./data3:/var/lib/columnstore/data3
-      - ./storagemanager:/var/lib/columnstore/storagemanager
-    env_file:
-      - .env
-    ports:
-      - 172.17.0.1:3309:3306
-
-  mx1:
-    image: ${MX_IMAGE_NAME}
-    hostname: ${MX1}
-    volumes:
-      - ./maxscale1:/var/lib/maxscale
-      - ./etc/maxscale.cnf:/etc/maxscale.cnf
+      - "172.17.0.1:24781:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${SOFTWARE_PASSWORD}
+      UPLOAD_LIMIT: 500M
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: ${SOFTWARE_PASSWORD}
     depends_on:
-      - "mcs1"
-    env_file:
-      - .env
-    links:
-      - "mcs1"
-      - "mcs2"
-      - "mcs3"
-    ports:
-      - 172.17.0.1:3310:3306
-      - 172.17.0.1:8989:8989
-
-  mx2:
-    image: ${MX_IMAGE_NAME}
-    hostname: ${MX2}
-    volumes:
-      - ./maxscale2:/var/lib/maxscale
-      - ./etc/maxscale.cnf:/etc/maxscale.cnf
-    depends_on:
-      - "mcs1"
-    env_file:
-      - .env
-    links:
-      - "mx1"
-      - "mcs1"
-      - "mcs2"
-      - "mcs3"
-    ports:
-      - 172.17.0.1:3311:3306
-      - 172.17.0.1:8990:8989
+      - mariadb
