@@ -6,4 +6,4 @@ echo "Waiting for software to be ready ..."
 sleep 30s;
 
 
-docker-compose exec -T mcs1 bash -c "mcs1 provision mcs1 mcs2 mcs3"
+docker-compose exec -T mcs1 bash -c "provision mcs1 mcs2 mcs3"
