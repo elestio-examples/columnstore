@@ -10,7 +10,10 @@ services:
     ports:
       - 172.17.0.1:3307:3306
     volumes:
-      - ./data:/var/lib/columnstore
+      - ./data1:/var/lib/columnstore/data1
+      - ./storagemanager:/var/lib/columnstore/storagemanager
+      - ./mysql_data:/var/lib/mysql:rw
+      - ./scripts/columnstore-init:/usr/bin/columnstore-init:rw
 
   pma:
     image: phpmyadmin/phpmyadmin
