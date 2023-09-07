@@ -44,6 +44,10 @@ RET=$'\n'
 # rsync -ravz --delete --exclude data2 --exclude data3 --exclude storagemanager /opt/var/lib/columnstore /var/lib
 # rsync -ravz --delete /opt/etc/my.cnf.d /etc
 # rsync -ravz --delete /opt/etc/columnstore /etc
+rsync -ravz  /opt/var/lib/mysql /var/lib
+rsync -ravz  --exclude data2 --exclude data3 --exclude storagemanager /opt/var/lib/columnstore /var/lib
+rsync -ravz  /opt/etc/my.cnf.d /etc
+rsync -ravz  /opt/etc/columnstore /etc
 
 # CGroup Memory Allocation For Container
 mcsSetConfig SystemConfig CGroup "${CGROUP}"
