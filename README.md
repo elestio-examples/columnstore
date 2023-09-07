@@ -10,8 +10,19 @@ Deploy Column Store with CI/CD on Elestio
 
 # Once deployed ...
 
-You can open Column Store ADMIN UI here:
+You can connect to your server with any MariaDB client with those credentials:
 
-    URL: https://[CI_CD_DOMAIN]
-    email: [ADMIN_EMAIL]
-    password: [ADMIN_PASSWORD]
+    Host: [CI_CD_DOMAIN]
+    Port: 23060
+    Login: root
+    Password: [ADMIN_PASSWORD]
+
+You can connect to your DB through PHPMyAdmin:
+
+    https://[CI_CD_DOMAIN]/
+    Login: root
+    Password: [ADMIN_PASSWORD]
+
+You can also connect with any MySQL client like the official CLI:
+
+    mysql --host=[CI_CD_DOMAIN] --port=23060 --user=root --password=[ADMIN_PASSWORD]
