@@ -1,7 +1,7 @@
 version: "3"
 services:
   mcs1:
-    image: ${MCS_IMAGE_NAME}
+    image: mariadb/columnstore:${SOFTWARE_VERSION_TAG}
     shm_size: "512mb"
     hostname: ${PM1}
     restart: always
