@@ -16,7 +16,7 @@ services:
       - ./etc/columnstore:/etc/columnstore
 
   pma:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin
     restart: always
     links:
       - mcs1:mcs1
